@@ -79,12 +79,36 @@ class Wind_load:
         ax.set_title('wind speed at height the {}m'.format(self.hyperparameters.z[node_index]))
 
 
-    def get_wind_loads(self, wind_speed_series):
-        """ Implementing the Eq. (2) to compute drag force """
+    def cp_dragforce_f(self, wind_speed_series):
+        """ Implementing the Eq. (2) to compute drag force 
+        f only not F
+        """
 
         linear_scale = 0.5 * self.hyperparameters.p * self.hyperparameters.cd 
         middle = [a * b**2 for a, b in zip(self.hyperparameters.An, wind_speed_series)]
         return linear_scale * np.array(middle)
+
+
+
+    def get_wind_loads_F(self, wind_speed_series):
+        """ Implementing the Eq. (2) to compute drag force 
+        
+        computing F
+        """
+
+        linear_scale = 0.5 * self.hyperparameters.p * self.hyperparameters.cd * self.hyperparameters.delta_h
+        middle = [a * b**2 for a, b in zip(self.hyperparameters.area_ave, wind_speed_series)]
+        result = [scalar * vector for scalar, vector in zip(linear_scale, np.array(middle))]
+        return np.array(result)
+
+
+    def compute_moments(self, ft):
+        """ q* (l^)2 / 8 """
+
+        return np.array([q*(l**2) for q, l in zip(ft, self.hyperparameters.delta_h)])
+
+
+
 
 
     def plot_wind_loads(self, wind_loads, node_index):
@@ -96,8 +120,9 @@ class Wind_load:
         ax.set_title('drag forces at the height {}m'.format(self.hyperparameters.z[node_index]))
 
 
-    def save_wind_load_series(self, ts):
-        np.savetxt("wind_load_series.csv", ts, delimiter=",")
+    def save_wind_load_series(self, ts, name):
+        # np.savetxt(f"{name}.csv", ts, delimiter=",")
+        np.savetxt(f"{name}.txt", ts, delimiter=",", newline="\n")
 
 
     def get_turbulence():
