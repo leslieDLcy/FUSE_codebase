@@ -85,8 +85,21 @@ class Wind_load:
         """
 
         linear_scale = 0.5 * self.hyperparameters.p * self.hyperparameters.cd 
-        middle = [a * b**2 for a, b in zip(self.hyperparameters.An, wind_speed_series)]
+        middle = [a * b**2 for a, b in zip(self.hyperparameters.cross_sec_area, wind_speed_series)]
         return linear_scale * np.array(middle)
+
+
+
+    """ a copy of Francesca's idea w.r.t the area to use in Eq. 2"""
+    # def cp_dragforce_f(self, wind_speed_series):
+    #     """ Implementing the Eq. (2) to compute drag force 
+    #     f only not F
+    #     """
+
+    #     linear_scale = 0.5 * self.hyperparameters.p * self.hyperparameters.cd 
+    #     middle = [a * b**2 for a, b in zip(self.hyperparameters.An, wind_speed_series)]
+    #     return linear_scale * np.array(middle)
+
 
 
 
@@ -97,7 +110,7 @@ class Wind_load:
         """
 
         linear_scale = 0.5 * self.hyperparameters.p * self.hyperparameters.cd * self.hyperparameters.delta_h
-        middle = [a * b**2 for a, b in zip(self.hyperparameters.area_ave, wind_speed_series)]
+        middle = [a * b**2 for a, b in zip(self.hyperparameters.cross_sec_area, wind_speed_series)]
         result = [scalar * vector for scalar, vector in zip(linear_scale, np.array(middle))]
         return np.array(result)
 
