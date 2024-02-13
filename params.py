@@ -16,7 +16,7 @@ class Params:
 
     # height of nodes
     # from Francesca
-    z = np.array([42.55, 45.434, 48.318, 51.202, 54.086, 56.97, 59.854, 62.738, 65.622, 68.506, 71.39])
+    z = np.array([8.51, 17.02, 25.53, 34.04, 42.55, 45.434, 48.318, 51.202, 54.086, 56.97, 59.854, 62.738, 65.622, 68.506, 71.39])
     
     Iref = 0.16
     c=2
@@ -43,7 +43,11 @@ class Params:
     # heights_com = np.array([42.55, 45.434, 48.318, 51.202, 54.086, 56.97, 59.854, 62.738, 65.622, 68.506, 71.39, 75.3])
 
 
-    Diameter = np.array([4.200, 4.110, 3.930, 3.750, 3.570, 3.390, 3.200, 3.020, 2.840, 2.660, 2.480])
+    rotor_diameter = 50
+
+
+    # 15 elements for the tower and 15 nodes (minus the zero height at the bottom) for the tower
+    Diameter = np.array([4.200, 4.200, 4.200, 4.200, 4.200, 4.110, 3.930, 3.750, 3.570, 3.390, 3.200, 3.020, 2.840, 2.660, 2.480])
 
     # @property
     # # template for property
@@ -69,15 +73,14 @@ class Params:
     def heights_com(self):
         """ height for computation, plus 1 at the end, plus a 0 at the front. """
         heights_com = np.insert(arr=self.z, obj=0, values=0.)
-        return np.append(arr=heights_com, values=self.z_hub)
+        return heights_com
 
 
     @property
     def delta_h(self):
         """ template for property"""
 
-        middle_h = moving_average(self.heights_com, 2)
-        return np.diff(middle_h)
+        return np.diff(self.heights_com)
 
 
     @property
@@ -85,3 +88,10 @@ class Params:
         """ template for property"""
 
         return self.delta_h * self.Diameter
+    
+
+    @property
+    def rotor_area(self):
+        """ plus 1 at the end """
+
+        return np.pi * (self.rotor_diameter/2)**2
