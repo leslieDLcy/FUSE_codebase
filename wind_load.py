@@ -140,25 +140,8 @@ class Wind_load:
         """
 
         linear_scale = 0.5 * self.hyperparameters.p * self.hyperparameters.cd 
-        middle = [a * b**2 for a, b in zip(self.hyperparameters.cross_sec_area, wind_speed_series)]
+        middle = [a * b**2 for a, b in zip(self.hyperparameters.Diameter, wind_speed_series)]
         return linear_scale * np.array(middle)
-
-
-
-
-    def cp_dragforce_f_interpolate(self, wind_speed_series):
-        """ compute the average f between two nodes as distributed load onto the elements
-         
-        note:
-            to interpolate the wind speed.  
-        """
-        pass
-
-
-
-
-
-
 
 
 
