@@ -185,7 +185,7 @@ class Wind_load:
 
         # the second step
         linear_scale = 0.5 * self.hyperparameters.p * self.hyperparameters.cd
-        F_hub_height = ws_hub**2 * self.hyperparameters.rotor_area
+        F_hub_height = ws_hub**2 * self.hyperparameters.blades_area
         return np.array(F_hub_height) * linear_scale
     
 

@@ -102,3 +102,10 @@ class Params:
         """ plus 1 at the end """
 
         return np.pi * (self.rotor_diameter/2)**2
+    
+
+    @property
+    def blades_area(self):
+        """ plus 1 at the end """
+
+        return 2 * self.rotor_diameter * 3 
