@@ -53,3 +53,23 @@ class Kamai:
         else:
             ax.set_title('Kaimal Spectrum (linear scale)')
 
+    @staticmethod
+    def simulation_at_height(simulation_obj, psd, params, height=73.5):
+
+        """ simulate the wind speed at height 
+        
+        args:
+            simulation_obj: the simulation object
+            params: the parameters object
+            node_index: the index of the height for the nodes
+        """
+        mean_speed = params.V_ref * (height / params.z_hub)**0.11
+        simulation_amp = simulation_obj._SpecRepsentation0(psd, plotting=False)
+        return simulation_amp + mean_speed
+    
+
+    @staticmethod
+    def simulation_heights(simulation_obj, psd, params, heights):
+        """ simulate an array of wind speed at different heights """
+
+        return np.array([Kamai.simulation_at_height(simulation_obj, psd, params, height) for height in heights])

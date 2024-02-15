@@ -102,3 +102,28 @@ class Params:
         """ plus 1 at the end """
 
         return np.pi * (self.rotor_diameter/2)**2
+    
+
+    @property
+    def blades_area(self):
+        """ plus 1 at the end """
+
+        return 2 * self.rotor_diameter * 3 
+    
+
+    @property
+    def average_heights(self):
+        """ template for property"""
+                    
+        ave_heights = np.insert(arr=self.z, obj=0, values=0.)
+        ave_heights = moving_average(ave_heights, 2)
+        return ave_heights
+    
+
+    @property
+    def average_diater(self):
+        """ template for property"""
+                    
+        ave_diameter = np.insert(arr=self.Diameter, obj=0, values=17.5/2)
+        ave_diameter = moving_average(ave_diameter, 2)
+        return ave_diameter
