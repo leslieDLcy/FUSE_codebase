@@ -148,7 +148,7 @@ class Wind_load:
 
         linear_scale = 0.5 * self.hyperparameters.p * self.hyperparameters.cd
         middle = [a * b**2 for a,
-                  b in zip(self.hyperparameters.average_diater, wind_speed_series)]
+                  b in zip(self.hyperparameters.Diameter, wind_speed_series)]
         return linear_scale * np.array(middle)
 
     """ a copy of Francesca's idea w.r.t the area to use in Eq. 2"""
@@ -176,7 +176,7 @@ class Wind_load:
         return np.array(result)
 
 
-    def cp_wind_loads_F_hub(self, sigma):
+    def cp_wind_loads_F_hub(self, sigma,):
         """ compute the nodal force at the hub height
 
         steps:
@@ -184,6 +184,7 @@ class Wind_load:
             2. uniform f with the hub area;
             3. An takes the area of the blades;
         """
+
         # compute wind speed series at hub height
         ws_hub = self.get_Vhub_series(sigma=sigma)
 
@@ -191,6 +192,30 @@ class Wind_load:
         linear_scale = 0.5 * self.hyperparameters.p * self.hyperparameters.cd
         F_hub_height = (ws_hub**2) * self.hyperparameters.blades_area
         return np.array(F_hub_height) * linear_scale
+
+
+
+    def cp_wind_loads_F_hub_external(self, external):
+        """ compute the nodal force at the hub height from external wind speed series 
+
+        steps:
+            1. wind speed at hub height;
+            2. uniform f with the hub area;
+            3. An takes the area of the blades;
+        """
+
+        # compute wind speed series at hub height
+        ws_hub = external
+
+        # the second step
+        linear_scale = 0.5 * self.hyperparameters.p * self.hyperparameters.cd
+        F_hub_height = (ws_hub**2) * self.hyperparameters.blades_area
+        return np.array(F_hub_height) * linear_scale
+
+
+
+
+
 
 
     def cp_wind_loads_F_at_hub(self, ws_hub):
